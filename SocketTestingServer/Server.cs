@@ -15,14 +15,14 @@ namespace SocketTestingServer {
             Socket listener = new Socket(ipAddr.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
 
             try {
-                listener.bind(localEndPoint);
+                listener.Bind(localEndPoint);
 
                 listener.Listen(10);
 
                 while(true){
                     Console.WriteLine("Waiting for connections...");
 
-                    ClientSocket client = listener.Accept();
+                    ClientSocket client = (ClientSocket)listener.Accept();
 
                     // Data buffer 
                     byte[] bytes = new Byte[1024]; 
@@ -54,7 +54,7 @@ namespace SocketTestingServer {
                     client.Close();
                 }
             } catch (Exception e){
-                Console.WriteLine(e.ToString);
+                Console.WriteLine(e.ToString());
                 Console.WriteLine(e.StackTrace);
             }
         }
