@@ -6,7 +6,7 @@ namespace SocketTestingServer
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            Server.Execute();
         }
     }
 }
