@@ -8,7 +8,7 @@ namespace SocketTestingClient
     class Client
     {
 
-        public static void Execute()
+        public static void Send(String data)
         {
             try
             {
@@ -24,28 +24,12 @@ namespace SocketTestingClient
                     // endpoint using method Connect() 
                     sender.Connect(localEndPoint);
 
-                    // We print EndPoint information  
-                    // that we are connected 
-                    Console.WriteLine("Socket connected to -> {0} ",
-                                  sender.RemoteEndPoint.ToString());
+                    data += "<EOF>";
 
                     // Creation of messagge that 
                     // we will send to Server 
-                    byte[] messageSent = Encoding.ASCII.GetBytes("Test Client<EOF>");
+                    byte[] messageSent = Encoding.ASCII.GetBytes(data);
                     int byteSent = sender.Send(messageSent);
-
-                    // Data buffer 
-                    byte[] messageReceived = new byte[1024];
-
-                    // We receive the messagge using  
-                    // the method Receive(). This  
-                    // method returns number of bytes 
-                    // received, that we'll use to  
-                    // convert them to string 
-                    int byteRecv = sender.Receive(messageReceived);
-                    Console.WriteLine("Message from Server -> {0}",
-                          Encoding.ASCII.GetString(messageReceived,
-                                                     0, byteRecv));
 
                     // Close Socket using  
                     // the method Close() 
