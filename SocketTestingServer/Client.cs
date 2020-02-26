@@ -4,13 +4,25 @@ using System.Net.Sockets;
 using System.Text;
 
 namespace SocketTestingServer {
-    class Client
+    class Client : IEquatable<Client>
     {
         private IPEndPoint endPoint;
+        private String username;
+
+        public Client(String username, IPEndPoint endPoint)
+        {
+            this.username = username;
+            this.endPoint = endPoint;
+        }
 
         public IPEndPoint GetEndPoint()
         {
             return endPoint;
+        }
+
+        public String GetUsername()
+        {
+            return username;
         }
 
         public void Send(String data)
@@ -61,6 +73,28 @@ namespace SocketTestingServer {
             catch (Exception e)
             {
                 Console.WriteLine(e.ToString());
+            }
+        }
+
+        public bool Equals(Client other)
+        {
+            if(endPoint.Address == other.endPoint.Address)
+            {
+                return true;
+            } else
+            {
+                return false;
+            }
+        }
+
+        public bool Equals(EndPoint other)
+        {
+            if(endPoint.Address == ((IPEndPoint)other).Address)
+            {
+                return true;
+            } else
+            {
+                return false;
             }
         }
     }

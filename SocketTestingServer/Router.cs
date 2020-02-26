@@ -12,7 +12,46 @@ namespace SocketTestingServer
 
         public void processMessage(String data, EndPoint endPoint)
         {
+            data = data.Replace("<EOF>", "");
+            data = data.Trim();
 
+            if (data.ToLower().StartsWith("login"))
+            {
+                clients.Add(new Client(data.Substring(5).Trim(), (IPEndPoint)endPoint));
+                announce(data.Substring(5).Trim() + " has Connected!");
+            }
+            else if (data.ToLower().StartsWith("logout"))
+            {
+                foreach(Client client in clients){
+                    if (client.Equals(endPoint))
+                    {
+                        announce(client.GetUsername() + " has Disconnected!");
+                        break;
+                    }
+                }
+                clients.Remove(new Client("", (IPEndPoint)endPoint));
+            }
+            else if (data.ToLower().StartsWith("tell"))
+            {
+                data = data.Substring(4).Trim();
+
+                foreach(Client client in clients)
+                {
+                    if (client.Equals(endPoint))
+                    {
+                        announce(client.GetUsername() + ": " + data);
+                        break;
+                    }
+                }
+            }
+        }
+
+        public void announce(String data)
+        {
+            foreach(Client client in clients)
+            {
+                client.Send(data);
+            }
         }
 
         
