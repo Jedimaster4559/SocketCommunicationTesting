@@ -16,7 +16,7 @@ namespace SocketTestingClient
 
             // Setup the local endpoint of the server
             // I wonder how adaptable this is? We will see later?
-            IPHostEntry ipHost = Dns.GetHostEntry(Dns.GetHostName());
+            IPHostEntry ipHost = Dns.GetHostEntry("cloud.gameserver-us001.hypernovastudios.com");
             IPAddress ipAddr = ipHost.AddressList[0];
             IPEndPoint localEndPoint = new IPEndPoint(ipAddr, 11111);
 
@@ -73,7 +73,7 @@ namespace SocketTestingClient
         {
             try
             {
-                IPHostEntry ipHost = Dns.GetHostEntry(Dns.GetHostName());
+                IPHostEntry ipHost = Dns.GetHostEntry("cloud.gameserver-us001.hypernovastudios.com");
                 IPAddress ipAddr = ipHost.AddressList[0];
                 IPEndPoint localEndPoint = new IPEndPoint(ipAddr, 11111);
 

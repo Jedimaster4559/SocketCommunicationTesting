@@ -12,7 +12,7 @@ namespace SocketTestingClient
         {
             try
             {
-                IPHostEntry ipHost = Dns.GetHostEntry(Dns.GetHostName());
+                IPHostEntry ipHost = Dns.GetHostEntry("cloud.gameserver-us001.hypernovastudios.com");
                 IPAddress ipAddr = ipHost.AddressList[0];
                 IPEndPoint localEndPoint = new IPEndPoint(ipAddr, 11111);
 
