@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 namespace SocketTestingClient
 {
@@ -6,6 +7,7 @@ namespace SocketTestingClient
     {
         static void Main(string[] args)
         {
+            Task task = Listener.Listen();
             Client.Execute();
         }
     }

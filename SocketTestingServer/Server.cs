@@ -8,7 +8,7 @@ namespace SocketTestingServer {
         public static void Execute() {
             // Setup the local endpoint of the server
             // I wonder how adaptable this is? We will see later?
-            IPHostEntry ipHost = Dns.GetHostEntry("cloud.gameserver-us001.hypernovastudios.com"); 
+            IPHostEntry ipHost = Dns.GetHostEntry(Dns.GetHostName()); 
             IPAddress ipAddr = ipHost.AddressList[0]; 
             IPEndPoint localEndPoint = new IPEndPoint(ipAddr, 11111);
 
@@ -19,13 +19,14 @@ namespace SocketTestingServer {
             Console.WriteLine("IPAddr: " + ipAddr.ToString());
             Console.WriteLine("EndPoint: " + localEndPoint.ToString());
 
+            Router r = new Router();
+
             try {
                 listener.Bind(localEndPoint);
 
                 listener.Listen(10);
 
                 while(true){
-                    Console.WriteLine("Waiting for connections...");
 
                     Socket client = listener.Accept();
 
@@ -42,14 +43,9 @@ namespace SocketTestingServer {
                                                     
                         if (data.IndexOf("<EOF>") > -1) 
                             break; 
-                    } 
-        
-                    Console.WriteLine("Text received -> {0} ", data); 
-                    byte[] message = Encoding.ASCII.GetBytes("Received!"); 
-        
-                    // Send a message to Client  
-                    // using Send() method 
-                    client.Send(message); 
+                    }
+
+                    r.processMessage(data, client.RemoteEndPoint);
         
                     // Close client Socket using the 
                     // Close() method. After closing, 
