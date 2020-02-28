@@ -13,6 +13,7 @@ namespace SocketTestingServer {
         {
             this.username = username;
             this.endPoint = endPoint;
+            this.endPoint.Port = 11111;
         }
 
         public IPEndPoint GetEndPoint()
@@ -29,6 +30,8 @@ namespace SocketTestingServer {
         {
             try
             {
+                Console.WriteLine("Attempting to send to: ");
+                Console.WriteLine(endPoint.ToString());
 
 
                 Socket sender = new Socket(endPoint.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
@@ -45,6 +48,8 @@ namespace SocketTestingServer {
                     // we will send to Server 
                     byte[] messageSent = Encoding.ASCII.GetBytes(data);
                     int byteSent = sender.Send(messageSent);
+
+                    Console.WriteLine("Sent to " + username + ": " + data);
 
                     // Close Socket using  
                     // the method Close() 

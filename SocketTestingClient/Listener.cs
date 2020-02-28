@@ -9,21 +9,37 @@ namespace SocketTestingClient
 {
     class Listener
     {
-        public static async Task Listen(String username)
+        public static void Listen(String username)
         {
             //Let The Server know we are listening for things.
             announceListening(username);
 
             // Setup the local endpoint of the server
             // I wonder how adaptable this is? We will see later?
-            IPHostEntry ipHost = Dns.GetHostEntry("cloud.gameserver-us001.hypernovastudios.com");
-            IPAddress ipAddr = ipHost.AddressList[0];
+            IPHostEntry ipHost = Dns.GetHostEntry(Dns.GetHostName());
+            IPAddress ipAddr = null;
+
+            foreach(IPAddress addr in ipHost.AddressList){
+                if(addr.AddressFamily == AddressFamily.InterNetwork)
+                {
+                    ipAddr = addr;
+                    break;
+                }
+            }
+
             IPEndPoint localEndPoint = new IPEndPoint(ipAddr, 11111);
 
             Socket listener = new Socket(ipAddr.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
 
             Console.WriteLine("DNS: " + Dns.GetHostName());
             Console.WriteLine("IPHost: " + ipHost.ToString());
+
+            Console.WriteLine("All Addresses:");
+            foreach(IPAddress addr in ipHost.AddressList)
+            {
+                Console.WriteLine(addr.ToString());
+            }
+
             Console.WriteLine("IPAddr: " + ipAddr.ToString());
             Console.WriteLine("EndPoint: " + localEndPoint.ToString());
 
@@ -92,21 +108,10 @@ namespace SocketTestingClient
 
                     // Creation of messagge that 
                     // we will send to Server 
-                    byte[] messageSent = Encoding.ASCII.GetBytes("Connect: " + username + "<EOF>");
+                    byte[] messageSent = Encoding.ASCII.GetBytes("login " + username + "<EOF>");
                     int byteSent = sender.Send(messageSent);
 
-                    // Data buffer 
-                    byte[] messageReceived = new byte[1024];
-
-                    // We receive the messagge using  
-                    // the method Receive(). This  
-                    // method returns number of bytes 
-                    // received, that we'll use to  
-                    // convert them to string 
-                    int byteRecv = sender.Receive(messageReceived);
-                    Console.WriteLine("Server: {0}",
-                          Encoding.ASCII.GetString(messageReceived,
-                                                     0, byteRecv));
+                  
 
                     // Close Socket using  
                     // the method Close() 

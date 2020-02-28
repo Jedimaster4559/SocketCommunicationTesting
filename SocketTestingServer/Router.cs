@@ -12,11 +12,13 @@ namespace SocketTestingServer
 
         public void processMessage(String data, EndPoint endPoint)
         {
+            Console.WriteLine("Received: " + data);
             data = data.Replace("<EOF>", "");
             data = data.Trim();
 
             if (data.ToLower().StartsWith("login"))
             {
+                Console.WriteLine("New Login from: " + endPoint.ToString());
                 clients.Add(new Client(data.Substring(5).Trim(), (IPEndPoint)endPoint));
                 announce(data.Substring(5).Trim() + " has Connected!");
             }

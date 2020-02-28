@@ -8,7 +8,6 @@ namespace SocketTestingClient
         static void Main(string[] args)
         {
             String input = "";
-            Task listenerTask;
 
             while (!input.ToLower().StartsWith("logout"))
             {
@@ -16,7 +15,8 @@ namespace SocketTestingClient
 
                 if (input.ToLower().StartsWith("login"))
                 {
-                    listenerTask = Listener.Listen(input.Substring(5).Trim());
+                    Task.Factory.StartNew(() => Listener.Listen(input.Substring(5).Trim())); 
+
                 } else if (input.ToLower().StartsWith("logout"))
                 {
                     Client.Send(input);
