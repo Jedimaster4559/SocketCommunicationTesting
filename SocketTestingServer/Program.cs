@@ -6,7 +6,8 @@ namespace SocketTestingServer
     {
         static void Main(string[] args)
         {
-            Server.Execute();
+            ServerRoom server = new ServerRoom();
+            server.Start().GetAwaiter().GetResult();
         }
     }
 }
