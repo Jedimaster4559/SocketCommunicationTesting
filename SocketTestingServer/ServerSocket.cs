@@ -2,6 +2,7 @@ using System;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace SocketTestingServer {
     class ServerSocket {
@@ -43,7 +44,8 @@ namespace SocketTestingServer {
 
                 while (true)
                 {
-                    new ClientSocket(socket.Accept(), handler);
+                    ClientSocket newClient = new ClientSocket(socket.Accept(), handler);
+                    Task.Run(() => newClient.Listen());
                 }
                 
 

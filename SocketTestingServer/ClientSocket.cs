@@ -16,7 +16,6 @@ namespace SocketTestingServer
             this.socket = socket;
             username = "";
             this.handler = handler;
-            Listen();
         }
 
         public void Listen()
